@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import * as bcrypt from 'bcrypt';
+import * as mongoose from 'mongoose';
+import { Task } from 'src/tasks/task.entity';
 
-export type UserDocument = User & Document;
+export type UserDocument = User & mongoose.Document;
 
 @Schema({ useNestedStrict: true })
 export class User {
@@ -17,6 +17,9 @@ export class User {
 
   @Prop()
   salt: string;
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: Task.name }] })
+  tasks: Task[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
