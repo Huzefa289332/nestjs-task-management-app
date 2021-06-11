@@ -97,4 +97,8 @@ export class TasksService {
     await task.save();
     return task;
   }
+
+  async getTasksByUser(user): Promise<TaskDocument[]> {
+    return this.taskModel.find({ user: user.id });
+  }
 }

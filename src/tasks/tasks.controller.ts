@@ -18,13 +18,13 @@ import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
 import { TaskDocument } from './task.entity';
 import { TasksService } from './tasks.service';
 import { TaskStatus } from './task-status.enum';
-import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { UserDocument } from 'src/auth/user.entity';
 import { TaskResponseDto } from './dto/task-response.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('tasks')
-@UseGuards(AuthGuard())
+@UseGuards(JwtAuthGuard)
 export class TasksController {
   private logger = new Logger('TasksController');
   constructor(private tasksService: TasksService) {}

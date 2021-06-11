@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { TasksModule } from './tasks/tasks.module';
 import { AuthModule } from './auth/auth.module';
+import { GraphQLModule } from '@nestjs/graphql';
 
 @Module({
   imports: [
@@ -14,6 +15,9 @@ import { AuthModule } from './auth/auth.module';
         useNewUrlParser: true,
       },
     ),
+    GraphQLModule.forRoot({
+      autoSchemaFile: true,
+    }),
     TasksModule,
     AuthModule,
   ],

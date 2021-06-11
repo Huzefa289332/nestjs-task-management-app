@@ -39,6 +39,7 @@ export class AuthService {
         accessToken,
       };
     } catch (error) {
+      console.log(error);
       if (error.code === 11000) {
         throw new ConflictException('Email already exists.');
       } else {
@@ -66,6 +67,14 @@ export class AuthService {
       email: user.email,
       accessToken,
     };
+  }
+
+  async getUser(id: string): Promise<UserDocument> {
+    return this.userModel.findById(id);
+  }
+
+  async getUsers(id: string): Promise<UserDocument[]> {
+    return this.userModel.find({ _id: id }).select('-password -salt');
   }
 
   private async hashPassword(password: string, salt: string): Promise<string> {

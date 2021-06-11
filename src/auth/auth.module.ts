@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
@@ -7,11 +7,14 @@ import { AuthService } from './auth.service';
 import { User, UserSchema } from './user.entity';
 import { JwtStrategy } from './jwt-strategy';
 import { ConfigModule } from '@nestjs/config';
+import { UserResolver } from './user.resolver';
+import { TasksModule } from 'src/tasks/tasks.module';
 
 @Module({
   imports: [
+    forwardRef(() => TasksModule),
     ConfigModule.forRoot(),
-    PassportModule.register({ defaultStrategy: 'jwt' }),
+    PassportModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: {
@@ -21,7 +24,7 @@ import { ConfigModule } from '@nestjs/config';
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, UserResolver],
   exports: [JwtStrategy, PassportModule],
 })
 export class AuthModule {}
