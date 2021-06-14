@@ -1,4 +1,4 @@
-import { UseGuards } from '@nestjs/common';
+import { UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -35,11 +35,13 @@ export class UserResolver {
   }
 
   @Mutation((returns) => UserType)
+  @UsePipes(ValidationPipe)
   signin(@Args('signinInput') signinInput: SigninInput) {
     return this.authService.signin(signinInput);
   }
 
   @Mutation((returns) => UserType)
+  @UsePipes(ValidationPipe)
   signup(@Args('signupInput') signupInput: SignupInput) {
     return this.authService.signup(signupInput);
   }

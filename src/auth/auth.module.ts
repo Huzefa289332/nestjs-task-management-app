@@ -14,7 +14,7 @@ import { TasksModule } from 'src/tasks/tasks.module';
   imports: [
     forwardRef(() => TasksModule),
     ConfigModule.forRoot(),
-    PassportModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: {
@@ -25,6 +25,6 @@ import { TasksModule } from 'src/tasks/tasks.module';
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, UserResolver],
-  exports: [JwtStrategy, PassportModule],
+  exports: [JwtStrategy, PassportModule, AuthService],
 })
 export class AuthModule {}

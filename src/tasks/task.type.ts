@@ -19,3 +19,9 @@ export class TaskType {
   @Field((type) => UserType)
   user: string;
 }
+
+@ObjectType('DeleteTaskOutput')
+export class DeleteTaskOutput {
+  @Field()
+  message: string;
+}

@@ -68,17 +68,26 @@ export class TasksService {
     const task = new this.taskModel(createTaskDto);
     task.user = user;
     await task.save();
+    const userDoc = task.user as UserDocument;
+    const userId: string = userDoc.id;
     const taskResponse = task.toObject();
     delete taskResponse.user;
-    return taskResponse;
+    taskResponse.id = taskResponse._id;
+    delete taskResponse._id;
+    return { ...taskResponse, user: userId };
   }
 
-  async deleteTask(id: string, user: UserDocument): Promise<void> {
+  async deleteTask(
+    id: string,
+    user: UserDocument,
+  ): Promise<{ message: string }> {
     const result = await this.taskModel
       .deleteOne({ _id: id, user: user.id })
       .exec();
     if (result.n === 0) {
       throw new NotFoundException(`Task with ID: ${id} not found`);
+    } else {
+      return { message: `Task with ID: ${id} is successfully deleted` };
     }
   }
 

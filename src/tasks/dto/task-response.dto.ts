@@ -5,4 +5,5 @@ export class TaskResponseDto {
   status: TaskStatus;
   title: string;
   description: string;
+  user: string;
 }
